@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 
 import { Button, Card, Container } from '@/components/ui-react-aria'
-import { useAuthentication } from '@/hooks/AuthProvider'
+import { useAuthentication } from '@/hooks/useAuth'
+
 
 export default function AdminDashboard() {
   const { user, logout } = useAuthentication()
@@ -9,14 +10,14 @@ export default function AdminDashboard() {
   return (
     <Container>
       <Card className='p-8'>
-        <p className='mb-2 text-sm font-semibold text-destructive-600'>Admin Dashboard</p>
-        <h1 className='block text-2xl font-bold text-gray-800 dark:text-white sm:text-2xl'>
+        <p className='mb-2 font-semibold text-destructive-600 text-sm'>Admin Dashboard</p>
+        <h1 className='block font-bold text-2xl text-gray-800 sm:text-2xl dark:text-white'>
           Welcome back, {user?.email}
         </h1>
-        <p className='mt-2 text-lg text-gray-700 dark:text-gray-400'>
+        <p className='mt-2 text-gray-700 text-lg dark:text-gray-400'>
           This should be a dashboard page for admin.
         </p>
-        <div className='mt-8 grid flex-col items-center gap-2 text-center sm:flex-row sm:gap-3'>
+        <div className='sm:flex-row flex-col items-center gap-2 sm:gap-3 grid mt-8 text-center'>
           <Link to='/'>
             <Button variant='destructive'>Back to homepage</Button>
           </Link>
