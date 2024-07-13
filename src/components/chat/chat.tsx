@@ -10,7 +10,6 @@ type InputMsg = {
 
 
 export const Chat = () => {
-  const [fooEvents, setFooEvents] = useState([]);
   const [messages, setMessages] = useState<Partial<InputMsg[]>>([{}]);
   const [messageInput, setMessageInput] = useState<InputMsg>({
     room_id: `666c076f402a1ef76f0f74d0`,

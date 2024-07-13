@@ -7,16 +7,18 @@ import { Socket } from 'socket.io-client'
 import { fetchChat } from '@/api'
 import { getAuthInfo, getToken } from '@/store/storage'
 import { useAuthentication } from '@/hooks/useAuth'
+import { ThemeSwitcher } from '@/lib/ThemeSwitcher'
 
 type InputMsg = {
   room_id?: string
   content?: string
 }
+// TODO: set default room
 
 export default function Chat() {
   const roomId = '666c076f402a1ef76f0f74d0'
   const auth = getAuthInfo()
-  const { logout } = useAuthentication();
+  const { logout } = useAuthentication()
 
   const [messages, setMessages] = useState<Partial<InputMsg[]>>([{}])
   const [messageInput, setMessageInput] = useState<InputMsg>({
@@ -70,19 +72,17 @@ export default function Chat() {
     }
   }, [socketIO])
 
-  // useEffect(() => {
-  //   onGetMsgs()
-  //   return () => {
-
-  //   }
-  // }, [messages])
+  useEffect(() => {
+    onGetMsgs()
+    return () => {}
+  }, [messages])
 
   const sendMessage = () => {
     if (socketIO) {
       socketIO.emit('message', messageInput)
       setMessageInput({
         room_id: roomId,
-        content: 'default',
+        content: '',
       })
       console.log(messages)
     }
@@ -133,9 +133,9 @@ export default function Chat() {
   return (
     <div className='flex h-screen text-gray-800 antialiased'>
       <div className='flex flex-row w-full h-full overflow-x-hidden'>
-        <div className='flex flex-col flex-shrink-0 bg-white py-8 pr-2 pl-6 w-64'>
+        <div className='flex flex-col flex-shrink-0 bg-white dark:bg-gray-800 py-8 pr-2 pl-6 w-64'>
           <div className='flex flex-row justify-center items-center w-full h-12'>
-            <div className='flex justify-center items-center bg-indigo-100 rounded-2xl w-10 h-10 text-indigo-700'>
+            <div className='flex justify-center items-center bg-indigo-100 dark:bg-indigo-700 rounded-2xl w-10 h-10 text-indigo-700 dark:text-indigo-100'>
               <svg
                 className='w-6 h-6'
                 fill='none'
@@ -153,42 +153,25 @@ export default function Chat() {
             </div>
             <div className='ml-2 font-bold text-2xl'>QuickChat</div>
           </div>
-          {/* <div className='flex flex-col items-center border-gray-200 bg-indigo-100 mt-4 px-4 py-6 border rounded-lg w-full'>
-            <div className='border rounded-full w-20 h-20 overflow-hidden'>
-              <img
-                src='https://avatars3.githubusercontent.com/u/2763884?s=128'
-                alt='Avatar'
-                className='w-full h-full'
-              />
-            </div>
-            <div className='mt-2 font-semibold text-sm'>Aminos Co.</div>
-            <div className='text-gray-500 text-xs'>Lead UI/UX Designer</div>
-            <div className='flex flex-row items-center mt-3'>
-              <div className='flex flex-col justify-center bg-indigo-500 rounded-full w-8 h-4'>
-                <div className='bg-white mr-1 rounded-full w-3 h-3 self-end'></div>
-              </div>
-              <div className='ml-1 text-xs leading-none'>Active</div>
-            </div>
-          </div> */}
           <div className='flex flex-col mt-8'>
             <div className='flex flex-row justify-between items-center text-xs'>
               <span className='font-bold'>Active Conversations</span>
-              <span className='flex justify-center items-center bg-gray-300 rounded-full w-4 h-4'>
+              <span className='flex justify-center items-center bg-gray-300 dark:bg-gray-600 rounded-full w-4 h-4'>
                 4
               </span>
             </div>
             <div className='flex flex-col space-y-1 -mx-2 mt-4 h-48 overflow-y-auto'>
               <button
                 onClick={() => onJoinChat()}
-                className='flex flex-row items-center hover:bg-gray-100 p-2 rounded-xl'
+                className='flex flex-row items-center hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-xl'
               >
-                <div className='flex justify-center items-center bg-indigo-200 rounded-full w-8 h-8'>
+                <div className='flex justify-center items-center bg-indigo-200 dark:bg-indigo-600 rounded-full w-8 h-8'>
                   H
                 </div>
                 <div className='ml-2 font-semibold text-sm'>Henry Boyd</div>
               </button>
-              <button className='flex flex-row items-center hover:bg-gray-100 p-2 rounded-xl'>
-                <div className='flex justify-center items-center bg-gray-200 rounded-full w-8 h-8'>
+              <button className='flex flex-row items-center hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-xl'>
+                <div className='flex justify-center items-center bg-gray-200 dark:bg-gray-600 rounded-full w-8 h-8'>
                   M
                 </div>
                 <div className='ml-2 font-semibold text-sm'>Marta Curtis</div>
@@ -197,15 +180,17 @@ export default function Chat() {
                 </div>
               </button>
             </div>
+            <ThemeSwitcher />
             <button
-            onClick={()=> logout()}
-            className='bg-red-500 hover:bg-red-600 px-4 py-2 rounded font-bold text-blue-700 transition duration-300 ease-in-out'>
-            Logout
-          </button>
+              onClick={() => logout()}
+              className='bg-red-500 hover:bg-red-600 dark:hover:bg-red-700 dark:bg-red-600 px-4 py-2 rounded font-bold text-blue-700 dark:text-blue-200 transition duration-300 ease-in-out'
+            >
+              Logout
+            </button>
           </div>
         </div>
         <div className='flex flex-col flex-auto p-6 h-full'>
-          <div className='flex flex-col flex-shrink-0 flex-auto bg-gray-100 p-4 rounded-2xl h-full'>
+          <div className='flex flex-col flex-shrink-0 flex-auto bg-gray-100 dark:bg-gray-700 p-4 rounded-2xl h-full'>
             <div className='flex flex-col mb-4 h-full overflow-x-auto'>
               <div className='flex flex-col h-full'>
                 {messages.map((data: any, index) => (
@@ -214,9 +199,9 @@ export default function Chat() {
               </div>
             </div>
           </div>
-          <div className='flex flex-row items-center bg-white px-4 rounded-xl w-full h-16'>
+          <div className='flex flex-row items-center bg-white dark:bg-gray-800 px-4 rounded-xl w-full h-16'>
             <div>
-              <button className='flex justify-center items-center text-gray-400 hover:text-gray-600'>
+              <button className='flex justify-center items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-400 dark:text-gray-500'>
                 <svg
                   className='w-5 h-5'
                   fill='none'
@@ -240,9 +225,9 @@ export default function Chat() {
                   value={messageInput?.content}
                   placeholder='type something...'
                   onChange={(e) => onSetMsgInput(e?.target?.value)}
-                  className='flex focus:border-indigo-300 pl-4 border rounded-xl w-full h-10 focus:outline-none'
+                  className='flex focus:border-indigo-300 dark:focus:border-indigo-500 dark:border-gray-600 pl-4 border rounded-xl w-full h-10 focus:outline-none'
                 />
-                <button className='top-0 right-0 absolute flex justify-center items-center w-12 h-full text-gray-400 hover:text-gray-600'>
+                <button className='top-0 right-0 absolute flex justify-center items-center w-12 h-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-400 dark:text-gray-500'>
                   <svg
                     className='w-6 h-6'
                     fill='none'
@@ -263,7 +248,7 @@ export default function Chat() {
             <div className='ml-4'>
               <Button
                 onPress={sendMessage}
-                className='flex flex-shrink-0 justify-center items-center bg-indigo-500 hover:bg-indigo-600 px-4 py-1 rounded-xl text-white'
+                className='flex flex-shrink-0 justify-center items-center bg-indigo-500 hover:bg-indigo-600 dark:hover:bg-indigo-700 dark:bg-indigo-600 px-4 py-1 rounded-xl text-white'
               >
                 <span>Send</span>
                 <span className='ml-2'>
