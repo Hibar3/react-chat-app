@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil'
+import { atom } from 'recoil'
 import { getToken } from './storage'
 
 export const ATOM_KEYS = {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export const ThemeSwitcher = () => {
-  const [mounted, setMounted] = useState(false);;
+  // const [mounted, setMounted] = useState(false);;
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -16,17 +16,17 @@ export const ThemeSwitcher = () => {
     setIsDarkMode((prevMode) => {
       const newMode = !prevMode;
       document.documentElement.classList.toggle('dark', newMode);
-      localStorage.setItem('theme', newMode ? 'dark' : 'light');
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
       return newMode;
     });
   };
 
 
   return (
-    <div className="flex justify-center items-center dark:bg-gray-800">
+    <div className="flex justify-center items-center">
       <button
         onClick={toggleDarkMode}
-        className="hover:bg-gray-500 dark:hover:bg-gray-700 p-2 rounded-lg w-12 h-12"
+        className="hover:bg-transparent p-2 rounded-lg w-12 h-12"
       >
         <svg
           className="block dark:hidden fill-violet-700"
@@ -61,7 +61,7 @@ export const ThemeSwitcher = () => {
 //     checked={theme === "dark" ? false : true}
 //     onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
 //   />
-//   <div className="after:top-0.5 after:absolute after:content-[''] peer-checked:after:border-white after:border-gray-300 dark:border-gray-600 bg-gray-200 after:bg-white dark:bg-gray-700 peer-checked:bg-purple-600 after:border rounded-full after:rounded-full w-11 after:w-5 h-6 after:h-5 after:transition-all rtl:peer-checked:after:-translate-x-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 peer-checked:after:translate-x-full after:start-[2px]"></div>
+//   <div className="after:top-0.5 after:absolute after:content-[''] peer-checked:after:border-white after:border-gray-300 dark:border-gray-600 bg-gray-200 after:bg-white dark:bg-gray-700 peer-checked:bg-purple-600 after:border rounded-full after:rounded-full peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 w-11 after:w-5 h-6 after:h-5 after:transition-all rtl:peer-checked:after:-translate-x-full peer-checked:after:translate-x-full peer after:start-[2px]"></div>
 //   <span className="font-medium text-gray-900 text-sm dark:text-gray-300 ms-3">
 //     {theme === "light" ? "Dark" : "Light"}
 //   </span>
