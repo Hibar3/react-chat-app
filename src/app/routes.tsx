@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router-dom'
 
-import { AppLayout, AuthLayout } from '@/components/layouts'
+import { AuthLayout } from '@/components/layouts'
 
 import Error404 from '@/pages/404'
 import { Login } from '@/pages/auth'
