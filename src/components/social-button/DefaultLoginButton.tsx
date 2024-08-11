@@ -9,7 +9,7 @@ type Props = {
 
 /** default login button with user details pre-filled */
 export const DefaultLoginButton: FC<Props> = (props) => {
-  const { email, password, username, onClick } = props || {}
+  const { username, onClick } = props || {}
   return (
     <button
       onClick={onClick}

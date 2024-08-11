@@ -93,7 +93,7 @@ export function AuthProvider({ children }: { children?: ReactNode }) {
   }, [loggedIn])
 
   const login = async (email: string, password: string) => {
-    fetchLogin({ email, password }).then((data) => {
+    fetchLogin({ email, password }).then(() => {
       setLoggedIn(true)
       setLoggedOut(false)
       

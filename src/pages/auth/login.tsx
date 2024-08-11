@@ -1,9 +1,7 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { DefaultLoginButton } from '@/components/social-button'
 import { Alert, Card } from '@/components/ui-react-aria'
-import { fetchLogin } from '@/api'
 import { getAuthInfo } from '@/store/storage'
 import { useAuthentication } from '@/hooks/useAuth'
 
@@ -18,12 +16,6 @@ export default function Login() {
   const auth = getAuthInfo()
   const navigate = useNavigate()
   console.log(auth)
-
-  const {
-    // register,
-    handleSubmit,
-    // formState: { errors, isSubmitting },
-  } = useForm<LoginTypes>()
 
   const handleLogin = (data: LoginTypes) => {
     const { email, password } = data
@@ -49,8 +41,8 @@ export default function Login() {
               onClick={
                 () => 
                 handleLogin({
-                  email: 'test@email.com',
-                  password: 'abc1d234',
+                  email: 'eddie@email.com',
+                  password: 'abcd1234',
                 })
               }
             />
@@ -58,8 +50,8 @@ export default function Login() {
               username='Harold'
               onClick={
                 () =>   handleLogin({
-                  email: 'demo@email.com',
-                  password: 'abc1d234',
+                  email: 'harold@email.com',
+                  password: 'abcd1234',
                 })
               }
             />
