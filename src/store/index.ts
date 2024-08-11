@@ -10,6 +10,4 @@ export const conversationState = atom({
   default: null,
 })
 
-export const myToken =
-  getToken() ||
-  `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjRiYTY1MzQ2ZGVjODhiNTdkNWIyOWIiLCJpYXQiOjE3MTg0NDIxODYsImV4cCI6MTc0OTk3ODE4Nn0._hU0EaIgBq8JrANwZKveNj7iEmNrKobCJu_mNeacmfw`
+export const myToken = getToken()
