@@ -24,6 +24,6 @@ export const getToken = () => {
   return token
 }
 
-export const removeLogin = () => {
+export const removeLogin = async () => {
   localStorage.removeItem('auth')
 }

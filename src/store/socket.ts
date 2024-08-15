@@ -11,13 +11,13 @@ export const socket = io(`${endpoint}`, {
   },
 })
 
-export const socketConnect = (token?: string) => {
-  // socket.auth = {
-  //   token,
-  // };
+// export const socketConnect = (token?: string) => {
+//   // socket.auth = {
+//   //   token,
+//   // };
 
-  socket.connect()
-}
+//   socket.connect()
+// }
 
 export const socketDisconnect = () => {
   socket.disconnect()
