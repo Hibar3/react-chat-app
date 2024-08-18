@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
-
-import { GitHubButton, GoogleButton } from '@/components/social-button'
-import { Alert, Button, Card, HorizontalDivider, TextField } from '@/components/ui-react-aria'
-import { auth, useAuthentication } from '@/hooks/AuthProvider'
+import { useNavigate } from 'react-router-dom'
+import { DefaultLoginButton } from '@/components/social-button'
+import { Alert, Card } from '@/components/ui-react-aria'
+import { getAuthInfo } from '@/store/storage'
+import { useAuthentication } from '@/hooks/useAuth'
 
 interface LoginTypes {
   email: string
@@ -12,26 +11,21 @@ interface LoginTypes {
 }
 
 export default function Login() {
-  const { login, loggedOut } = useAuthentication()
+  const { loggedOut, login } = useAuthentication()
   const [failed, setFailed] = useState<string | null>()
-
-  const {
-    // register,
-    handleSubmit,
-    // formState: { errors, isSubmitting },
-  } = useForm<LoginTypes>()
+  const auth = getAuthInfo()
+  const navigate = useNavigate()
+  console.log(auth)
 
   const handleLogin = (data: LoginTypes) => {
-    setFailed(null)
     const { email, password } = data
-    auth
-      .login(email, password, true)
-      .then((_response) => login())
-      .catch((error) => setFailed(error.message))
+    login(email, password)
+    setFailed(null)
+    navigate('/chat')
   }
 
   return (
-    <main className='mx-auto w-full max-w-md p-6'>
+    <main className='mx-auto p-6 w-full max-w-md'>
       {failed && <Alert variant='destructive'>{failed}</Alert>}
       {loggedOut && (
         <Alert variant='success'>
@@ -40,16 +34,33 @@ export default function Login() {
       )}
 
       <Card>
-        <div className='p-4 sm:px-7 sm:py-8'>
+        <div className='sm:px-7 sm:py-8 p-4'>
           <div className='space-y-2'>
-            <GoogleButton />
-            <GitHubButton />
+            <DefaultLoginButton
+              username='Eddie'
+              onClick={
+                () => 
+                handleLogin({
+                  email: 'eddie@email.com',
+                  password: 'abcd1234',
+                })
+              }
+            />
+            <DefaultLoginButton
+              username='Harold'
+              onClick={
+                () =>   handleLogin({
+                  email: 'harold@email.com',
+                  password: 'abcd1234',
+                })
+              }
+            />
           </div>
 
-          <HorizontalDivider label='Or' />
+          {/* <HorizontalDivider label='Or' />
 
           <form autoComplete='off' onSubmit={handleSubmit(handleLogin)}>
-            <div className='grid gap-y-4'>
+            <div className='gap-y-4 grid'>
               <div>
                 <TextField
                   label='Email address'
@@ -66,7 +77,7 @@ export default function Login() {
                 // withResetLink
               />
             </div>
-            <div className='mt-6 grid w-full'>
+            <div className='grid mt-6 w-full'>
               <Button
                 type='submit'
                 variant='primary'
@@ -79,12 +90,12 @@ export default function Login() {
           </form>
 
           <div className='mt-8 text-center'>
-            <p className='text-sm text-gray-600 dark:text-gray-400'>
-              <Link to='/' className='text-blue-600 decoration-2 hover:underline'>
+            <p className='text-gray-600 text-sm dark:text-gray-400'>
+              <Link to='/' className='text-blue-600 hover:underline decoration-2'>
                 &larr; Go back to homepage
               </Link>
             </p>
-          </div>
+          </div> */}
         </div>
       </Card>
     </main>
