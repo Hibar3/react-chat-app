@@ -1,3 +1,4 @@
+/* @ts-ignore eslint-disable @typescript-eslint/no-unused-vars */
 import { ThemeSwitcher } from '@/lib/ThemeSwitcher'
 import Dropdown from '../Dropdown'
 

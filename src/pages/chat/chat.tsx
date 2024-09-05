@@ -1,5 +1,6 @@
 // Assets in public directory cannot be imported from JavaScript.
 // Instead, we use `src/assets` directory.
+/* @ts-ignore eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Input } from '@/components/ui-react-aria'
 import { socket } from '@/store/socket'
 import { useEffect, useState } from 'react'
@@ -9,13 +10,11 @@ import {
   fetchChat,
   fetchCreateRoom,
   fetchCurrentRoomId,
-  fetchRoom,
   fetchUser,
   RoomType,
   User,
 } from '@/api'
-import { getAuthInfo, getToken } from '@/store/storage'
-import { useAuthentication } from '@/hooks/useAuth'
+import { getAuthInfo } from '@/store/storage'
 import CHeader from '@/components/Header'
 import map from 'lodash/map'
 import size from 'lodash/size'
@@ -29,7 +28,6 @@ type InputMsg = {
 export default function Chat() {
   const [roomId, setRoomId] = useState<string>('')
   const auth = getAuthInfo()
-  const { logout } = useAuthentication()
 
   const [messages, setMessages] = useState<Partial<InputMsg[]>>([{}])
   const [messageInput, setMessageInput] = useState<InputMsg>({
@@ -40,14 +38,8 @@ export default function Chat() {
   const [users, setUsers] = useState<User[]>([])
   const [currentRoomId, setCurrentRoomId] = useState<{ roomId: string }[]>([])
   const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
 
   //=====FUNCTIONS
-  const getChatrooms = async () => {
-    const chatRooms = await fetchRoom()
-    return chatRooms
-  }
-
   const onGetUsers = async () => {
     const user = (await fetchUser()) || []
     setUsers(user)
